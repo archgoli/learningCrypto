@@ -9,8 +9,9 @@ from keyboard import Keyboard
 from plugboard import Plugboard 
 from rotor import Rotor 
 from reflector import Reflector 
+from enigma import Enigma
 
-
+# historical enigma components
 I = Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q")
 II = Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E")
 III = Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V")
@@ -19,19 +20,14 @@ V = Rotor("VZBRGITYUPSDNHLXAWMJQOFECK", "Z")
 A = Reflector("EJMZALYXVBWFCRQUONTSPIKHGD")
 B = Reflector("YRUHQSLDPXNGOKMIEBFZCWVJAT")
 C = Reflector("FVPJIAOYEDRZXWGCTKUQSBNMHL")
+
+# keyboard and plugboard
 KB = Keyboard()
 PB = Plugboard(["AR", "GK", "OX"])
 
-letter = input("Please enter your letter: ")
-signal = KB.forward(letter)
-signal = PB.forward(signal)
-signal = III.forward(signal)
-signal = II.forward(signal)
-signal = I.forward(signal)
-signal = A.reflect(signal)
-signal = I.backward(signal)
-signal = II.backward(signal)
-signal = III.backward(signal)
-signal = PB.backward(signal)
-signal = KB.backward(signal)
-print(signal)
+ENIGMA = Enigma(A, I, II, III, PB, KB)
+print(ENIGMA.encipher("A"))
+
+# I.show()
+# I.rotate_to_letter("j")
+# I.show()
