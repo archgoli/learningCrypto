@@ -22,7 +22,7 @@ C = Reflector("FVPJIAOYEDRZXWGCTKUQSBNMHL")
 KB = Keyboard()
 PB = Plugboard(["AR", "GK", "OX"])
 
-letter = "A"
+letter = input("Please enter your letter: ")
 signal = KB.forward(letter)
 signal = PB.forward(signal)
 signal = III.forward(signal)
