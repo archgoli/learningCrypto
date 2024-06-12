@@ -1,4 +1,5 @@
 class Enigma: 
+
     def __init__(self, re, r1, r2, r3, pb, kb):
         self.re = re
         self.r1 = r1
@@ -7,7 +8,36 @@ class Enigma:
         self.pb = pb
         self.kb = kb
 
+    def set_rings(self, rings): 
+        self.r1.set_ring(rings[0])
+        self.r2.set_ring(rings[1])
+        self.r3.set_ring(rings[2])
+
+    def set_key(self, key):
+
+        # rotate alphabet of each rotor so letter at position 0 of each rotor's left inner alphabet will match the respective key
+        self.r1.rotate_to_letter(key[0]) 
+        self.r2.rotate_to_letter(key[1])
+        self.r3.rotate_to_letter(key[2])
+
     def encipher(self, letter): 
+        
+        # rotate the rotors
+        if self.r2.left[0] == self.r2.notch and self.r3.left[0] == self.r3.notch: 
+            self.r1.rotate()
+            self.r2.rotate()
+            self.r3.rotate()
+        elif self.r2.left[0] == self.r2.notch: 
+            self.r1.rotate()
+            self.r2.rotate()
+            self.r3.rotate()
+        elif self.r3.left[0] == self.r3.notch: 
+            self.r2.rotate()
+            self.r3.rotate()
+        else: 
+            self.r3.rotate()
+
+        # pass signals through the machine
         signal = self.kb.forward(letter)
         signal = self.pb.forward(signal)
         signal = self.r3.forward(signal)

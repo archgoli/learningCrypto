@@ -30,22 +30,33 @@ class Rotor:
         print(self.right)
         print()
     
-    def rotate(self, n = 0): 
+    def rotate(self, n=1, forward = True): 
         for i in range(n):
-            self.left = self.left[1:] + self.left[0]
-            self.right = self.right[1:] + self.right[0]
+            # if direction is forward, then shift alphabet upwards by step n.  
+            if forward: 
+                self.left = self.left[1:] + self.left[0]
+                self.right = self.right[1:] + self.right[0]
+            # if direction is not forward, shift alphabet downwards by step n. 
+            else: 
+                self.left = self.left[25] + self.left[:25]
+                self.right = self.right[25] + self.right[:25]
 
     def rotate_to_letter(self, letter):
-        n = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".find(letter)
-        self.rotate(n)
+        n = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".find(letter) # find position of letter
+        self.rotate(n) # rotate the number of times equal to the letter's index so the letter will be at position 0
+
+    def set_ring(self, n):
+        # rotate the rotor backwards
+        self.rotate(n-1, forward=False)
+
+        # adjust the turnover notch in relationship to the wiring
+        n_notch = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".find(self.notch)
+        self.notch = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[(n_notch - n) % 26]
 
 
-
-    
-     
-I = Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q")
-II = Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E")
-III = Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V")
-IV = Rotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J")
-V = Rotor("VZBRGITYUPSDNHLXAWMJQOFECK", "Z")
+# I = Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q")
+# II = Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E")
+# III = Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V")
+# IV = Rotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J")
+# V = Rotor("VZBRGITYUPSDNHLXAWMJQOFECK", "Z")
 
