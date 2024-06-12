@@ -12,7 +12,7 @@ from reflector import Reflector
 from enigma import Enigma
 
 # historical enigma rotors and reflectors
-I = Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q")
+I = Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q") # (wiring or inner right alphabet, turnover notch)
 II = Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E")
 III = Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V")
 IV = Rotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J")
@@ -36,7 +36,7 @@ ENIGMA.set_key("CAT")
 # ENIGMA.r2.show()
 
 # encipher a message
-message = "TESTINGTESTINGTESTINGTESTING"
+message = "THISCOOLENIGMAMACHINE"
 cipher_text = ""
 for letter in message: 
     cipher_text = cipher_text + ENIGMA.encipher(letter)

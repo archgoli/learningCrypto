@@ -9,20 +9,25 @@ class Enigma:
         self.kb = kb
 
     def set_rings(self, rings): 
+        """desc Takes in a number, which represents the initial position of the letter pair that will be the turnover notch for each rotor. 
+        When this letter pair is at position 0, the rotor will rotate."""
         self.r1.set_ring(rings[0])
         self.r2.set_ring(rings[1])
         self.r3.set_ring(rings[2])
 
     def set_key(self, key):
-
+        """Sets what letter will be at position 0 for each rotor's inner alphabet - the starting positions for each rotor. """
         # rotate alphabet of each rotor so letter at position 0 of each rotor's left inner alphabet will match the respective key
         self.r1.rotate_to_letter(key[0]) 
         self.r2.rotate_to_letter(key[1])
         self.r3.rotate_to_letter(key[2])
 
     def encipher(self, letter): 
-        
+        """Encrypts the given letter."""
+
         # rotate the rotors
+        # when the turnover notch is at position 0 in the rotor's inner left alphabet, all rotors up to the rotor left of the respective rotor will rotate. 
+        # rotor 3 will always rotate once for each key pressed.
         if self.r2.left[0] == self.r2.notch and self.r3.left[0] == self.r3.notch: 
             self.r1.rotate()
             self.r2.rotate()
