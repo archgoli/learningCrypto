@@ -5,6 +5,7 @@ Plugboard: A-R, G-K, O-X
 Message: A => X
 """
 
+import pygame
 class Rotor: 
     def __init__(self, wiring, notch):
         self.left = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -55,10 +56,41 @@ class Rotor:
         n_notch = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".find(self.notch) # finds what position is turnover notch in alphabet - the position we're at right now
         self.notch = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[(n_notch - n + 1) % 26] # subtracts the number of steps we shifted from the current position mod 26
 
+    def draw(self, screen, x, y, w, h, font): 
+        
+        # rectangle
+        r = pygame.Rect(x, y, w, h)
+        pygame.draw.rect(screen, "white", r, width = 2, border_radius = 15)
+
+        # letters 
+        for i in range(26): 
+
+            # left hand side 
+            letter = self.left[i]
+            letter = font.render(letter, True, "grey")
+            text_box = letter.get_rect(center = (x+w/4, y + (i + 1)* h/27))
+
+            # highlight top letter 
+            if i == 0: 
+                pygame.draw.rect(screen, "teal", text_box, border_radius = 5)
+
+            # highlight turnover notch
+            if self.left[i] == self.notch: 
+                letter = font.render(self.notch, True, "#333333")
+                pygame.draw.rect(screen, "white", text_box, border_radius = 5)
+
+            screen.blit(letter, text_box)
+
+
+            # right hand side 
+            letter = self.right[i]
+            letter = font.render(letter, True, "grey")
+            text_box = letter.get_rect(center = (x+w*3/4, y + (i + 1)* h/27))
+            screen.blit(letter, text_box)
+
 
 # I = Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q")
 # II = Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E")
 # III = Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V")
 # IV = Rotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J")
 # V = Rotor("VZBRGITYUPSDNHLXAWMJQOFECK", "Z")
-

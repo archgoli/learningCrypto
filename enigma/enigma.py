@@ -9,7 +9,7 @@ class Enigma:
         self.kb = kb
 
     def set_rings(self, rings): 
-        """desc Takes in a number, which represents the initial position of the letter pair that will be the turnover notch for each rotor. 
+        """Takes in a number, which represents the initial position of the letter pair that will be the turnover notch for each rotor. 
         When this letter pair is at position 0, the rotor will rotate."""
         self.r1.set_ring(rings[0])
         self.r2.set_ring(rings[1])
@@ -25,9 +25,9 @@ class Enigma:
     def encipher(self, letter): 
         """Encrypts the given letter."""
 
-        # rotate the rotors
-        # when the turnover notch is at position 0 in the rotor's inner left alphabet, all rotors up to the rotor left of the respective rotor will rotate. 
-        # rotor 3 will always rotate once for each key pressed.
+        # rotate the rotors when the turnover notch is at position 0 in the rotor's inner left alphabet, all rotors
+        # up to the rotor left of the respective rotor will rotate. rotor 3 will always rotate once for each key
+        # pressed.
         if self.r2.left[0] == self.r2.notch and self.r3.left[0] == self.r3.notch: 
             self.r1.rotate()
             self.r2.rotate()
@@ -44,14 +44,33 @@ class Enigma:
 
         # pass signals through the machine
         signal = self.kb.forward(letter)
+        path = [signal, signal]
         signal = self.pb.forward(signal)
+        path.append(signal)
+        path.append(signal)
         signal = self.r3.forward(signal)
+        path.append(signal)
+        path.append(signal)
         signal = self.r2.forward(signal)
+        path.append(signal)
+        path.append(signal)
         signal = self.r1.forward(signal)
+        path.append(signal)
+        path.append(signal)
         signal = self.re.reflect(signal)
+        path.append(signal)
+        path.append(signal)
         signal = self.r1.backward(signal)
+        path.append(signal)
+        path.append(signal)
         signal = self.r2.backward(signal)
+        path.append(signal)
+        path.append(signal)
         signal = self.r3.backward(signal)
+        path.append(signal)
+        path.append(signal)
         signal = self.pb.backward(signal)
+        path.append(signal)
+        path.append(signal)
         letter = self.kb.backward(signal)
-        return letter
+        return [path, letter]
